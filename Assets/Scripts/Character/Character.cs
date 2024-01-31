@@ -2,10 +2,10 @@ using UnityEngine;
 
 public sealed class Character : MonoBehaviour, IJumpable
 {
-    [SerializeField] private Rigidbody2D _rigidbody;
-    [SerializeField] private LayerMask _layerGround;
-    [SerializeField] private Animator _animator;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private LayerMask _layerGround;
+    [SerializeField] private Rigidbody2D _rigidbody;
     private bool _isJump;
 
     private void CharacterJump()
