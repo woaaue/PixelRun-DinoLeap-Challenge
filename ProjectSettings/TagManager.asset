@@ -3,15 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Character
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
+  - Character
   - 
   - 
   - 
@@ -40,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer 1
+    uniqueID: 2591480063
+    locked: 0
+  - name: New Layer 2
+    uniqueID: 747002031
+    locked: 0
+  - name: Character
+    uniqueID: 101491009
     locked: 0
