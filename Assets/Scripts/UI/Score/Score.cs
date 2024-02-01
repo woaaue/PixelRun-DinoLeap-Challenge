@@ -23,9 +23,9 @@ public sealed class Score : MonoBehaviour
 
     private void IncreasePointMultiplier()
     {
-        if (SpeedSystem.instance.currentSpeed - _startSpeed >= 2.5f)
+        if (SpeedSystem.instance.currentSpeed - _startSpeed >= 1)
         {
-            _multiplierScore += .01f;
+            _multiplierScore += .02f;
             _startSpeed = SpeedSystem.instance.currentSpeed;
         }
     }
@@ -33,7 +33,7 @@ public sealed class Score : MonoBehaviour
     private void Start()
     {
         _startScore = 1f;
-        _multiplierScore = .01f;
+        _multiplierScore = .02f;
         _earningPoints = _startScore;
         _startSpeed = SpeedSystem.instance.currentSpeed;
         _textScore.text = ConvertScoreToText(_startScore);
@@ -43,7 +43,11 @@ public sealed class Score : MonoBehaviour
     {
         IncreasePointMultiplier();
         
-        _earningPoints += _multiplierScore;
         _textScore.text = ConvertScoreToText(_earningPoints + _multiplierScore);
+    }
+
+    private void FixedUpdate()
+    {
+        _earningPoints += _multiplierScore;
     }
 }
