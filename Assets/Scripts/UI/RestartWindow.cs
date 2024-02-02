@@ -14,9 +14,4 @@ public sealed class RestartWindow : MonoBehaviour
         if (value)
             _restartWindow.SetActive(true);
     }
-
-    private void OnDestroy()
-    {
-        FindObjectOfType<Character>().DiedCharacterEvent -= OnDiedCharacterEvent;
-    }
 }

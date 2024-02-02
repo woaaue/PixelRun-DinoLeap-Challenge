@@ -47,6 +47,5 @@ public sealed class ObstacleSpawner : MonoBehaviour
     private void OnDestroy()
     {
         StopCoroutine(_startCoroutine);
-        FindObjectOfType<Character>().DiedCharacterEvent -= OnDiedCharacterEvent;
     }
 }

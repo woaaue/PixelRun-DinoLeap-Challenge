@@ -60,9 +60,4 @@ public sealed class Score : MonoBehaviour
         if (!_stopScoring)
             _earningPoints += _multiplierScore;
     }
-
-    private void OnDisable()
-    {
-        FindObjectOfType<Character>().DiedCharacterEvent -= OnDiedCharacterEvent;
-    }
 }

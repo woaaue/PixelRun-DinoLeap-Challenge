@@ -79,6 +79,5 @@ public sealed class Obstacle : MonoBehaviour
     private void OnDisable()
     {
         transform.position = _position;
-        FindObjectOfType<Character>().DiedCharacterEvent -= OnDiedCharacterEvent;
     }
 }
