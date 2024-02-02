@@ -4,12 +4,15 @@ using UnityEngine;
 
 public sealed class Score : MonoBehaviour
 {
+    [SerializeField] private Character _eventCharacter;
     [SerializeField] private TextMeshProUGUI _textScore;
 
     private float _startScore;
     private float _startSpeed;
+    private bool _stopScoring;
     private float _earningPoints;
     private float _multiplierScore;
+
 
     private string ConvertScoreToText(float score)
     {
@@ -19,6 +22,11 @@ public sealed class Score : MonoBehaviour
     private float ConvertTextToScore(string text)
     {
         return float.Parse(text);
+    }
+
+    private void OnDiedCharacterEvent(bool value)
+    {
+        _stopScoring = value;
     }
 
     private void IncreasePointMultiplier()
@@ -37,6 +45,7 @@ public sealed class Score : MonoBehaviour
         _earningPoints = _startScore;
         _startSpeed = SpeedSystem.instance.currentSpeed;
         _textScore.text = ConvertScoreToText(_startScore);
+        FindObjectOfType<Character>().DiedCharacterEvent += OnDiedCharacterEvent;
     }
 
     private void Update()
@@ -48,6 +57,12 @@ public sealed class Score : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _earningPoints += _multiplierScore;
+        if (!_stopScoring)
+            _earningPoints += _multiplierScore;
+    }
+
+    private void OnDisable()
+    {
+        FindObjectOfType<Character>().DiedCharacterEvent -= OnDiedCharacterEvent;
     }
 }

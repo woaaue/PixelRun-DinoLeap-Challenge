@@ -1,11 +1,16 @@
+using System;
 using UnityEngine;
 
 public sealed class Character : MonoBehaviour, IJumpable
 {
+    public event Action<bool> DiedCharacterEvent;
+
     [SerializeField] private float _jumpForce;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Sound _soundEffects;
     [SerializeField] private LayerMask _layerGround;
     [SerializeField] private Rigidbody2D _rigidbody;
+
     private bool _isJump;
 
     private void CharacterJump()
@@ -14,8 +19,17 @@ public sealed class Character : MonoBehaviour, IJumpable
         {
             _isJump = true;
             _animator.SetBool("isJump", _isJump);
-            _rigidbody.AddForce(new Vector2(_rigidbody.velocity.x, _jumpForce), ForceMode2D.Force);
+            _soundEffects.PlaySound(0);
+            _rigidbody.AddForce(new Vector2(_rigidbody.velocity.x, _jumpForce), ForceMode2D.Impulse);
         }
+    }
+
+    private void CharacterDeath()
+    {
+        _animator.SetTrigger("isDeath");
+        _soundEffects.PlaySound(1);
+        DiedCharacterEvent?.Invoke(true);
+        Time.timeScale = 0f;
     }
 
     void IJumpable.Jump()
@@ -30,6 +44,9 @@ public sealed class Character : MonoBehaviour, IJumpable
             _isJump = false;
             _animator.SetBool("isJump", _isJump);
         }
-
+        else
+        {
+            CharacterDeath();
+        }
     }
 }
