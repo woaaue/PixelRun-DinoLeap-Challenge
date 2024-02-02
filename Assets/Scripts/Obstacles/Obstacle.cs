@@ -6,11 +6,26 @@ public sealed class Obstacle : MonoBehaviour
     private float _speed;
     private bool _isLive;
     private Vector2 _position;
+    private bool _stopMove;
     private Coroutine _startCoroutine;
 
     private void InitializeSpeed()
-    {        
+    {
         _speed = SpeedSystem.instance.currentSpeed;
+    }
+
+    private void OnDiedCharacterEvent(bool value)
+    {
+        _stopMove = value;
+    }
+
+    private void TurnOffCoroutine()
+    {
+        if (_startCoroutine != null && !_isLive)
+        {
+            StopCoroutine(_startCoroutine);
+            _startCoroutine = null;
+        }
     }
 
     private void Start()
@@ -24,28 +39,34 @@ public sealed class Obstacle : MonoBehaviour
         _isLive = true;
 
         InitializeSpeed();
+        FindObjectOfType<Character>().DiedCharacterEvent += OnDiedCharacterEvent;
     }
 
     private void Update()
     {
-        transform.Translate(Vector2.left * _speed * Time.deltaTime);
-
-        if (_startCoroutine == null && _isLive)
+        if (!_stopMove)
         {
-            _startCoroutine = StartCoroutine(LiveTimeRoutine());
+            transform.Translate(Vector2.left * _speed * Time.deltaTime);
+
+            if (_startCoroutine == null && _isLive)
+            {
+                _startCoroutine = StartCoroutine(LiveTimeRoutine());
+            }
+            else
+            {
+                if (_startCoroutine != null && !_isLive)
+                {
+                    TurnOffCoroutine();
+
+                    gameObject.SetActive(false);
+                }
+            }
+
         }
         else
         {
-            if (_startCoroutine != null && !_isLive)
-            {
-                StopCoroutine(_startCoroutine);
-
-                _startCoroutine = null;
-
-                gameObject.SetActive(false);
-            }
+            TurnOffCoroutine();
         }
-
     }
 
     private IEnumerator LiveTimeRoutine()
@@ -58,5 +79,6 @@ public sealed class Obstacle : MonoBehaviour
     private void OnDisable()
     {
         transform.position = _position;
+        FindObjectOfType<Character>().DiedCharacterEvent -= OnDiedCharacterEvent;
     }
 }
