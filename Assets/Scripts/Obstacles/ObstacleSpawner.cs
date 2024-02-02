@@ -3,7 +3,6 @@ using System.Collections;
 
 public sealed class ObstacleSpawner : MonoBehaviour
 {
-    [SerializeField] private float _spawnInterval;
     [SerializeField] private ObstaclePool _obstacle;
 
     private bool _stopGame;
@@ -36,7 +35,7 @@ public sealed class ObstacleSpawner : MonoBehaviour
     {
         while(!_stopGame)
         {
-            yield return new WaitForSecondsRealtime(_spawnInterval);
+            yield return new WaitForSecondsRealtime(Random.Range(1f, 4f));
 
             GetSpawnObstacle();
         }
