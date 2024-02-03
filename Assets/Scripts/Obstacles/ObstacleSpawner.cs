@@ -35,7 +35,7 @@ public sealed class ObstacleSpawner : MonoBehaviour
     {
         while(!_stopGame)
         {
-            yield return new WaitForSecondsRealtime(Random.Range(1f, 4f));
+            yield return new WaitForSecondsRealtime(Random.Range(0.8f, 2.8f));
 
             GetSpawnObstacle();
         }

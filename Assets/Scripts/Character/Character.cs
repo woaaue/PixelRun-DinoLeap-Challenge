@@ -18,9 +18,9 @@ public sealed class Character : MonoBehaviour, IJumpable
         if (!_isJump)
         {
             _isJump = true;
-            _animator.SetBool("isJump", _isJump);
             _soundEffects.PlaySound(0);
-            _rigidbody.AddForce(new Vector2(_rigidbody.velocity.x, _jumpForce), ForceMode2D.Impulse);
+            _animator.SetBool("isJump", _isJump);
+            _rigidbody.velocity = Vector2.up * _jumpForce;
         }
     }
 

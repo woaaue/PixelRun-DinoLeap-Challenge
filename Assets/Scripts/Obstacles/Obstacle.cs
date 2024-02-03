@@ -9,11 +9,6 @@ public sealed class Obstacle : MonoBehaviour
     private bool _stopMove;
     private Coroutine _startCoroutine;
 
-    private void InitializeSpeed()
-    {
-        _speed = SpeedSystem.instance.currentSpeed;
-    }
-
     private void OnDiedCharacterEvent(bool value)
     {
         _stopMove = value;
@@ -37,8 +32,6 @@ public sealed class Obstacle : MonoBehaviour
     private void OnEnable()
     {
         _isLive = true;
-
-        InitializeSpeed();
         FindObjectOfType<Character>().DiedCharacterEvent += OnDiedCharacterEvent;
     }
 
@@ -46,6 +39,8 @@ public sealed class Obstacle : MonoBehaviour
     {
         if (!_stopMove)
         {
+            _speed = SpeedSystem.instance.currentSpeed;
+
             transform.Translate(Vector2.left * _speed * Time.deltaTime);
 
             if (_startCoroutine == null && _isLive)
